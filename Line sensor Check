@@ -1,0 +1,30 @@
+#define sideleft    A0
+#define left        A1
+#define mid         A4
+#define right       A2
+#define sideright   A3
+
+void setup() {
+  // put your setup code here, to run once:
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  int ll = analogRead(sideleft);
+  int l = analogRead(left);
+  int m = analogRead(mid);
+  int r = analogRead(right);
+  int rr = analogRead(sideright);
+
+  Serial.print(ll);
+  Serial.print("   ");
+  Serial.print(l);
+  Serial.print("   ");
+  Serial.print(m);
+  Serial.print("   ");
+  Serial.print(r);
+  Serial.print("   ");
+  Serial.print(rr);
+  Serial.println("   ");
+}
