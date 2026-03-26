@@ -1,0 +1,150 @@
+//Датчики линии
+#define sideleft    A0
+#define left        A1
+#define mid         A4
+#define right       A2
+#define sideright   A3
+
+//Моторы
+#define lspd         6
+#define rspd         5 
+#define ldir         7
+#define rdir         4
+
+//Скорости
+int sspeed = 100;
+int speed = 160;
+int bspeed = 110;
+int tspeed = 55;
+
+//Сетап
+void setup(){
+  // Настраивает выводы платы 4,5,6,7 на вывод сигналов 
+  for(int i = 4; i <= 7; i++) {
+    pinMode(i, OUTPUT);
+  }
+  forward();
+}
+
+//Главные условия
+void loop() {
+  // put your main code here, to run repeatedly:
+  int ll = analogRead(sideleft);
+  int l = analogRead(left);
+  int m = analogRead(mid);
+  int r = analogRead(right);
+  int rr = analogRead(sideright);
+
+  //Левый поворот
+  if(ll, l, m > 550){
+    turnleft();
+  }
+
+  else if(l,m > 550){
+    turnlleft();
+  }
+  
+  //Проверка центра
+  else if(m > 550){
+    forward();
+  }
+
+  //Проверка центра 2.0
+  else if(m < 550){
+    backward();
+  }
+
+  //Правый поворот
+  else if(rr, r, m > 550){
+    turnrright();
+  }
+  
+  else if(r, m > 550){
+    turnright();
+  }
+  delay(500);
+}
+
+//Резкий поворот влево
+void turnleft(){
+
+  //Скорость левого колеса
+  analogWrite(lspd, tspeed);
+
+  //Скорость правого колеса
+  analogWrite(rspd, speed);
+
+  //Направление колес HIGH - вперёд, LOW - назад
+  analogWrite(ldir, HIGH);
+  analogWrite(rdir, HIGH);
+}
+
+//Резкий поворот вправо
+void turnright(){
+
+  //Скорость левого колеса
+  analogWrite(lspd, speed);
+
+  //Скорость правого колеса
+  analogWrite(rspd, tspeed);
+
+  //Направление колес HIGH - вперёд, LOW - назад
+  analogWrite(ldir, HIGH);
+  analogWrite(rdir, HIGH);
+}
+
+//Плавный поворот влево
+void turnlleft(){
+
+  //Скорость левого колеса
+  analogWrite(lspd, bspeed);
+
+  //Скорость правого колеса
+  analogWrite(rspd, speed);
+
+  //Направление колес HIGH - вперёд, LOW - назад
+  analogWrite(ldir, HIGH);
+  analogWrite(rdir, HIGH);
+}
+
+//Плавный поворот вправо
+void turnrright(){
+
+  //Скорость левого колеса
+  analogWrite(lspd, speed);
+
+  //Скорость правого колеса
+  analogWrite(rspd, bspeed);
+
+  //Направление колес HIGH - вперёд, LOW - назад
+  analogWrite(ldir, HIGH);
+  analogWrite(rdir, HIGH);
+}
+
+//Ехать вперёд
+void forward(){
+
+  //Скорость левого колеса
+  analogWrite(lspd, speed);
+
+  //Скорость правого колеса
+  analogWrite(rspd, speed);
+
+  //Направление колес HIGH - вперёд, LOW - назад
+  analogWrite(ldir, HIGH);
+  analogWrite(rdir, HIGH);
+}
+
+//Ехать назад
+void backward(){
+
+    //Скорость левого колеса
+  analogWrite(lspd, bspeed);
+
+  //Скорость правого колеса
+  analogWrite(rspd, bspeed);
+
+  //Направление колес HIGH - вперёд, LOW - назад
+  analogWrite(ldir, LOW);
+  analogWrite(rdir, LOW);
+}
