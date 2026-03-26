@@ -1,3 +1,4 @@
+//Обозначаем порты сенсоров линии
 #define sideleft    A0
 #define left        A1
 #define mid         A4
@@ -10,13 +11,14 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  //Читаем значения с датчиков линии
   int ll = analogRead(sideleft);
   int l = analogRead(left);
   int m = analogRead(mid);
   int r = analogRead(right);
   int rr = analogRead(sideright);
 
+  //Выводим значения в монитор порта
   Serial.print(ll);
   Serial.print("   ");
   Serial.print(l);
