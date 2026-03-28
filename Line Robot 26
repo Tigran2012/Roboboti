@@ -36,30 +36,30 @@ void loop() {
   int rr = analogRead(sideright);
 
   //Левый поворот
-  if(ll, l, m > 550){
+  if(ll, l, m > 550, rr, r < 550){
     turnleft();
   }
 
-  else if(l,m > 550){
+  else if(l,m > 550, ll, rr, r < 550){
     turnlleft();
   }
   
   //Проверка центра
-  else if(m > 550){
+  else if(m > 550, ll, rr, l, r < 550){
     forward();
   }
 
   //Проверка центра 2.0
-  else if(m < 550){
+  else if(m, ll, rr, l, r < 550){
     backward();
   }
 
   //Правый поворот
-  else if(rr, r, m > 550){
+  else if(rr, r, m > 550, ll, l < 550){
     turnrright();
   }
   
-  else if(r, m > 550){
+  else if(r, m > 550, rr, ll, l < 550){
     turnright();
   }
   delay(500);
