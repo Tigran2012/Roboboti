@@ -1,0 +1,121 @@
+// Датчики линии
+#define sideleft    A0
+#define left        A1
+#define mid         A4
+#define right       A2
+#define sideright   A3
+
+// Моторы
+#define lspd         6
+#define rspd         5 
+#define ldir         7
+#define rdir         4
+
+// Скорости
+int sspeed = 100;
+int speed = 160;
+int bspeed = 110;
+int tspeed = 55;
+
+// Сетап
+void setup() {
+  // Настраивает выводы платы 4,5,6,7 на вывод сигналов
+  for (int i = 4; i <= 7; i++) {
+    pinMode(i, OUTPUT);
+  }
+  forward();
+}
+
+// Главные условия
+void loop() {
+  int ll = analogRead(sideleft);
+  int l = analogRead(left);
+  int m = analogRead(mid);
+  int r = analogRead(right);
+  int rr = analogRead(sideright);
+
+  // Левый поворот: крайние левые и средний видят линию, остальные — нет
+  if (ll > 550 && l > 550 && m > 550 && rr < 550 && r < 550) {
+    turnleft();
+  }
+  // Плавный левый поворот: левый и средний видят линию
+  else if (l > 550 && m > 550 && ll < 550 && rr < 550 && r < 550) {
+    turnlleft();
+  }
+  // Ехать вперёд: только средний датчик видит линию
+  else if (m > 550 && ll < 550 && rr < 550 && l < 550 && r < 550) {
+    forward();
+  }
+  // Ехать назад: если съехал с линии (все датчики < 550)
+  else if (ll < 550 && l < 550 && m < 550 && r < 550 && rr < 550) {
+    backward();
+  }
+  // Правый поворот: крайние правые и средний видят линию, остальные — нет
+  else if (rr > 550 && r > 550 && m > 550 && ll < 550 && l < 550) {
+    turnrright();
+  }
+  // Плавный правый поворот: правый и средний видят линию
+  else if (r > 550 && m > 550 && rr < 550 && ll < 550 && l < 550) {
+    turnright();
+  }
+  // Если ни одно условие не сработало — стоп (на случай ошибки)
+  else {
+    stop();
+  }
+
+  delay(50); // Уменьшенная задержка для более быстрой реакции
+}
+
+// Резкий поворот влево
+void turnleft() {
+  analogWrite(lspd, tspeed);
+  analogWrite(rspd, speed);
+  digitalWrite(ldir, HIGH);
+  digitalWrite(rdir, HIGH);
+}
+
+// Резкий поворот вправо
+void turnright() {
+  analogWrite(lspd, speed);
+  analogWrite(rspd, tspeed);
+  digitalWrite(ldir, HIGH);
+  digitalWrite(rdir, HIGH);
+}
+
+// Плавный поворот влево
+void turnlleft() {
+  analogWrite(lspd, bspeed);
+  analogWrite(rspd, speed);
+  digitalWrite(ldir, HIGH);
+  digitalWrite(rdir, HIGH);
+}
+
+// Плавный поворот вправо
+void turnrright() {
+  analogWrite(lspd, speed);
+  analogWrite(rspd, bspeed);
+  digitalWrite(ldir, HIGH);
+  digitalWrite(rdir, HIGH);
+}
+
+// Ехать вперёд
+void forward() {
+  analogWrite(lspd, speed);
+  analogWrite(rspd, speed);
+  digitalWrite(ldir, HIGH);
+  digitalWrite(rdir, HIGH);
+}
+
+// Ехать назад
+void backward() {
+  analogWrite(lspd, bspeed);
+  analogWrite(rspd, bspeed);
+  digitalWrite(ldir, LOW);
+  digitalWrite(rdir, LOW);
+}
+
+// Стоп
+void stop() {
+  analogWrite(lspd, 0);
+  analogWrite(rspd, 0);
+}
